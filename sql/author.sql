@@ -18,3 +18,4 @@ CREATE TABLE author (
    -- this creates the primary key
 	PRIMARY KEY(authorId)
 	);
+
