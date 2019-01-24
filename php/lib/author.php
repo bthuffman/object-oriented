@@ -1,8 +1,8 @@
 <?php
-namespace bhuffman1\objectOriented;
+namespace BHuffman1\ObjectOriented;
 
 //require_once("Author.php");
-require_once(dirname(_DIR_, 1) . "/Classes/Author.php");
+require_once(dirname(__DIR__, 1) . "/Classes/Author.php");
 
 use Ramsey\Uuid\Uuid;
 
