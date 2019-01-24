@@ -1,4 +1,10 @@
 <?php
+namespace bhuffman1\objectOriented;
+
+require_once("autoload.php");
+require_once(dirname(_DIR_, 2) . "/vendor/autoload.php");
+
+use Ramsey\Uuid\Uuid;
 /**
  *
  * This contains the author class
@@ -9,43 +15,57 @@
  * @author Brandon Huffman <bt_huffman@msn.com>
  */
 class author{
+	/**
+	 * Refers to the ValidateUuid.php
+	 */
 	use ValidateUuid;
 	/**
 	 * id for the author; this is the primary key
+	 * @var Uuid $authorId
 	 */
 	private $authorId;
 	/**
-	 * url of the author; normal state variable
+	 * url of the author avatar; normal state variable
+	 * @var string $authorAvatarUrl
 	 */
 	private $authorAvatarUrl;
 	/**
 	 * activation token of the author;
+	 * @var string $authorActivationToken
 	 */
 	private $authorActivationToken;
 	/*
 	 * email of the author; this is a unique key
+	 * @var string $authorEmail
 	 */
 	private $authorEmail;
 	/**
 	 * hash for the author; normal state variable
+	 * @var string $authorHash
 	 */
 	private $authorHash;
 	/**
 	 * username for the author; this is a unique key
+	 * @var string $authorUsername
 	 */
 	private $authorUsername;
 	/**
 	 * Constructor for this author
 	 *
-	 * @param uuid newAuthorId new author id
+	 * @param Uuid newAuthorId new author id
 	 * @param string newAuthorAvatarUrl new author avatar url
 	 * @param string newAuthorActivationToken new author activation token
 	 * @param string newAuthorEmail new author email
 	 * @param string newAuthorHash new author hash
 	 * @param string newAuthorUsername new author username
-	 */
+	 * @throws \InvalidArgumentException if data types are not valid
+	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
+	 * @throws \TypeError if a data type violates a data hint
+	 * @throws \Exception if some other exception occurs
+	 * @Documentation http://php.net/manual/en/language.oop5.decon.php
+	*/
 	//note all magic methods start with two underbars __
-	public function__construct($newAuthorId, $newAuthorAvatarUrl, $newAuthorActivateToken, $newAuthorEmail, $newAuthorHash, $newAuthorUsername) {
+	public function __construct($newAuthorId, string $newAuthorAvatarUrl, string $newAuthorActivationToken, string $newAuthorEmail, string $newAuthorHash, string $newAuthorUsername) {
 try {
 	$this->setAuthorId($newAuthorId);
 	$this->setAuthorAvatarUrl($newAuthorAvatarUrl);
@@ -53,9 +73,9 @@ try {
 	$this->setAuthorEmail($newAuthorEmail);
 	$this->setAuthorHash($newAuthorHash);
 	$this->setAuthorUsername($newAuthorUsername);
-}catch(UnexpectedValueException $exception) {
-	// rethrow to the caller, tldr what specific exception error is, but here you go.
-	throw(new UnexprectValueException("Unable to construct Author,", 0, $exception));
+}catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+	// determine the exception type that was thrown
+	throw(new $exceptionType($exception->getMessage(), 0, $exception));
 }
 }
 	/**
@@ -73,7 +93,7 @@ try {
 	  * @throws \RangeException if $newAuthorId is not positive
 	  * @throws \TypeError if the author id is not the "uuid" type
 	  */
-	 public function setAuthorId( $newAuthorId): void {
+	 public function setAuthorId( $newAuthorId)//: void {
 	 	try {
 	 		$uuid = self::validateUuid($newAuthorId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {

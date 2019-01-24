@@ -9,3 +9,4 @@
 require_once("Author.php");
 // usee the constructor to create a new author
 $author = new Author(1,"bhuff",123,"bt_huffman@msn.com","code123","bhuff");
+var_dump($author);
