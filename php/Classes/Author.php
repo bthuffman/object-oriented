@@ -66,17 +66,18 @@ class author{
 	*/
 	//note all magic methods start with two underbars __
 	public function __construct($newAuthorId, string $newAuthorAvatarUrl, string $newAuthorActivationToken, string $newAuthorEmail, string $newAuthorHash, string $newAuthorUsername) {
-try {
-	$this->setAuthorId($newAuthorId);
-	$this->setAuthorAvatarUrl($newAuthorAvatarUrl);
-	$this->setAuthorActivationToken($newAuthorActivationToken);
-	$this->setAuthorEmail($newAuthorEmail);
-	$this->setAuthorHash($newAuthorHash);
-	$this->setAuthorUsername($newAuthorUsername);
-}catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+	try {
+		$this->setAuthorId($newAuthorId);
+		$this->setAuthorAvatarUrl($newAuthorAvatarUrl);
+		$this->setAuthorActivationToken($newAuthorActivationToken);
+		$this->setAuthorEmail($newAuthorEmail);
+		$this->setAuthorHash($newAuthorHash);
+		$this->setAuthorUsername($newAuthorUsername);
+	}catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 	// determine the exception type that was thrown
-	throw(new $exceptionType($exception->getMessage(), 0, $exception));
-}
+		$exceptionType = get_class($exception);
+		throw(new $exceptionType($exception->getMessage(), 0, $exception));
+	}
 }
 	/**
 	 *Accessor method for authorId
@@ -93,7 +94,7 @@ try {
 	  * @throws \RangeException if $newAuthorId is not positive
 	  * @throws \TypeError if the author id is not the "uuid" type
 	  */
-	 public function setAuthorId( $newAuthorId)//: void {
+	 public function setAuthorId( $newAuthorId) : void {
 	 	try {
 	 		$uuid = self::validateUuid($newAuthorId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
