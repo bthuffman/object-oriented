@@ -35,6 +35,30 @@ class author{
 	 */
 	private $authorUsername;
 	/**
+	 * Constructor for this author
+	 *
+	 * @param uuid newAuthorId new author id
+	 * @param string newAuthorAvatarUrl new author avatar url
+	 * @param string newAuthorActivationToken new author activation token
+	 * @param string newAuthorEmail new author email
+	 * @param string newAuthorHash new author hash
+	 * @param string newAuthorUsername new author username
+	 */
+	//note all magic methods start with two underbars __
+	public function__construct($newAuthorId, $newAuthorAvatarUrl, $newAuthorActivateToken, $newAuthorEmail, $newAuthorHash, $newAuthorUsername) {
+try {
+	$this->setAuthorId($newAuthorId);
+	$this->setAuthorAvatarUrl($newAuthorAvatarUrl);
+	$this->setAuthorActivationToken($newAuthorActivationToken);
+	$this->setAuthorEmail($newAuthorEmail);
+	$this->setAuthorHash($newAuthorHash);
+	$this->setAuthorUsername($newAuthorUsername);
+}catch(UnexpectedValueException $exception) {
+	// rethrow to the caller, tldr what specific exception error is, but here you go.
+	throw(new UnexprectValueException("Unable to construct Author,", 0, $exception));
+}
+}
+	/**
 	 *Accessor method for authorId
 	 *
 	 * @return Uuid value of author id (or null if new author)
@@ -49,8 +73,8 @@ class author{
 	  * @throws \RangeException if $newAuthorId is not positive
 	  * @throws \TypeError if the author id is not the "uuid" type
 	  */
-	 public function setAuthorId( ): void {
-	 	try {$newAuthorId
+	 public function setAuthorId( $newAuthorId): void {
+	 	try {
 	 		$uuid = self::validateUuid($newAuthorId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 	 		$exceptionType = get_class($exception);
@@ -187,6 +211,31 @@ class author{
 	/**
 	 * accessor method for author username
 	 *
-	 * @return author username
+	 * @return string value of author username
 	 */
+	public function getAuthorUsername(): string {
+		return ($this->authorUsername);
+	}
+	/**
+	 * mutator method for at handle
+	 *
+	 * @param string $newAuthorUsername new value of username
+	 * @throws \InvalidArgumentException if $newAuthorUsername is not a string or insecure
+	 * @throws \RangeException if $newAuthorUsername is > 32 characters
+	 * @throws \TypeError if $newAuthorUsername is not a string
+	 */
+	public function setAuthorUsername(string $newAuthorUsername) : void {
+		// verify the at handle is secure
+		$newAuthorUsername = trim($newAuthorUsername);
+		$newAuthorUsername = filter_var($newAuthorUsername, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newAuthorUsername) === true) {
+			throw(new \InvalidArgumentException("Author username is empty or insecure"));
+		}
+		// verify that author username will fit in the database
+		if(strlen($newAuthorUsername) > 32) {
+			throw(new \RangeException("Author username is too large"));
+		}
+		// store the new author username
+		$this->authorUsername = $newAuthorUsername;
+	}
 }
