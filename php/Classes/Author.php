@@ -159,8 +159,8 @@ class author implements \JsonSerializable {
 			throw(new \InvalidArgumentException("Activation Token is empty or insecure"));
 	}
 
-		//verify the tweet content will fit in the database
-		if(strlen($newTweetContent) > 32) {
+		//verify the author activation token will fit in the database
+		if(strlen($newAuthorActivationToken) > 32) {
 			throw(new \RangeException("Activation Token is more than 32 characters"));
 		}
 		//store the activation token
@@ -185,7 +185,7 @@ class author implements \JsonSerializable {
 	public function setAuthorEmail(string $newAuthorEmail): void {
 		// verify the email is secure
 		$newAuthorEmail = trim($newAuthorEmail);
-		$newAuthorEmail = filter_var($newAuthorEmail, FILTER_VALIDATE_EMAIL);
+		$newAuthorEmail = filter_var($newAuthorEmail, FILTER_VALIDATE_EMAIL,FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($newAuthorEmail) === true) {
 			throw(new \InvalidArgumentException("author email is empty or insecure"));
 		}
@@ -325,7 +325,7 @@ class author implements \JsonSerializable {
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
 	public static function getAuthorByAuthorId(\PDO $pdo, $authorId) : ?author {
-		// sanitize the tweetId before searching
+		// sanitize the authorId before searching
 		try {
 			$authorId = self::validateUuid($authorId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
@@ -346,7 +346,7 @@ class author implements \JsonSerializable {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$author = new Author($row["authorId"], $row["authorAvatarUrl"], $row["authorActivationToken"], $row["authorEmail", $row["authorHash"], $row["authorUsername"]);
+				$author = new Author($row["authorId"], $row["authorAvatarUrl"], $row["authorActivationToken"], $row["authorEmail"], $row["authorHash"], $row["authorUsername"]);
 			}
 		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
@@ -365,7 +365,6 @@ class author implements \JsonSerializable {
 		$fields["authorId"] = $this->authorId->toString();
 		$fields["authorAvatarUrl"] = $this->authorAvatarUrl->toString();
 
-		//format the date so that the front end can consume it
 		return($fields);
 	}
 }
