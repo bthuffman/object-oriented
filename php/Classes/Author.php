@@ -151,18 +151,18 @@ class author{
 	 * @throws \TypeError if the activation token is not a string
 	 */
 	public function setAuthorActivationToken(string $newAuthorActivationToken): void {
-		if($newAuthorActivationToken === null) {
-			$this->authorActivationToken = null;
-			return;
+		//verify activation token is secure
+		$newAuthorActivationToken = trim($newAuthorActivationToken);
+		$newAuthorActivationToken = filter_var($newAuthorActivationToken, FILTER_SANITIZE_STRING,FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newAuthorActivationToken) === true) {
+			throw(new \InvalidArgumentException("Activation Token is empty or insecure"));
+	}
+
+		//verify the tweet content will fit in the database
+		if(strlen($newTweetContent) > 32) {
+			throw(new \RangeException("Activation Token is more than 32 characters"));
 		}
-		$newAuthorActivationToken = strtolower(trim($newAuthorActivationToken));
-		if(ctype_xdigit($newAuthorActivationToken) === false) {
-			throw(new\RangeException("user activation is not valid"));
-		}
-		//make sure user activation token is only 32 characters
-		if(strlen($newAuthorActivationToken) !== 32) {
-			throw(new\RangeException("user activation token has to be 32"));
-		}
+		//store the activation token
 		$this->authorActivationToken = $newAuthorActivationToken;
 	}
 	/**

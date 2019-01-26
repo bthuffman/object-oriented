@@ -8,5 +8,5 @@ use Ramsey\Uuid\Uuid;
 
 //Load the author class
 // use the constructor to create a new author
-$author = new Author(1,"bhuff",123,"bt_huffman@msn.com","code123","bhuff");
+$author = new Author("0ad8fe66-6c0b-48d5-8fcb-9a51fce5554f","bhuff","nananananananananananananananana","bt_huffman@msn.com","babababababababababababababababababababababababababababababababababababababababababababababababab","bhuff");
 var_dump($author);

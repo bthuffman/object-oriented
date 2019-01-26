@@ -19,3 +19,8 @@ CREATE TABLE author (
 	PRIMARY KEY(authorId)
 	);
 
+INSERT INTO author(authorId, authorAvatarUrl, authorActivationToken, authorEmail, authorHash, authorUsername)
+	VALUE (UNHEX("ceec3bc28c9a41f5b67dbaeb3947210c"), "www.avatarurl.com", "AcTiVaTiOnToKeN", "author@email.com", "password1","authorUsername");
+
+-- delete previous insert
+DELETE FROM author WHERE authorId = UNHEX("ceec3bc28c9a41f5b67dbaeb3947210c");
