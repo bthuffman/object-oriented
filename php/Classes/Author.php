@@ -218,11 +218,11 @@ class author implements \JsonSerializable {
 		if(empty($newAuthorHash) === true) {
 			throw(new \InvalidArgumentException("author password hash empty or insecure"));
 		}
-		//enforce the hash is really an Argon hash
-		$authorHashInfo = password_get_info($newAuthorHash);
-		if($authorHashInfo["algoName"] !== "argon2i") {
-			throw(new \InvalidArgumentException("author hash is not a valid hash"));
-		}
+//		//enforce the hash is really an Argon hash
+//		$authorHashInfo = password_get_info($newAuthorHash);
+//		if($authorHashInfo["algoName"] !== "argon2i") {
+//			throw(new \InvalidArgumentException("author hash is not a valid hash"));
+//		}
 		//enforce that the hash is exactly 97 characters.
 		if(strlen($newAuthorHash) !== 97) {
 			throw(new \RangeException("author hash must be 97 characters"));
