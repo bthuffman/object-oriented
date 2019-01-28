@@ -11,4 +11,7 @@ use Ramsey\Uuid\Uuid;
 $author = new Author("0ad8fe66-6c0b-48d5-8fcb-9a51fce5554f","bhuff", "nananananananananananananananana","bt_huffman@msn.com", "babababababababababababababababababababababababababababababababababababababababababababababababab", "bhuff");
 var_dump($author);
 
-$author->insert(pdo);
+//Not sure about this
+//$author->insert(pdo);
+//no mySQL database passwords on github
+
