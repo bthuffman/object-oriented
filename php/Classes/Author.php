@@ -14,7 +14,7 @@ use Ramsey\Uuid\Uuid;
  *
  * @author Brandon Huffman <bt_huffman@msn.com>
  */
-class author implements \JsonSerializable {
+class author /*implements \JsonSerializable */{
 	/**
 	 * Refers to the ValidateUuid.php
 	 */
@@ -359,6 +359,7 @@ class author implements \JsonSerializable {
 	 *
 	 * @return array resulting state variables to serialize
 	 **/
+	/*Leave out
 	public function jsonSerialize() : array {
 		$fields = get_object_vars($this);
 
@@ -367,4 +368,5 @@ class author implements \JsonSerializable {
 
 		return($fields);
 	}
+	*/
 }
