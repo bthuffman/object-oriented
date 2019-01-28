@@ -355,6 +355,34 @@ class author /*implements \JsonSerializable */{
 		return($author);
 	}
 	/**
+	 * Get all authors
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray SplFixedArray of the authors found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variales are not the correct data type
+	 */
+	public static function getAllAuthors(\PDO $pdo) : \SPLFixedArray {
+		// create query template
+		$query = "SELECT authorId, authorAvatarUrl, authorActivationToken, authorEmail, authorHash, authorUsername";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
+
+		//build an array of authors
+		$authors = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row =$statement->fetch()) !== false) {
+			try {
+				$author = new Author($row["authorId"], $row["authorAvatarUrl"], $row["authorActivationToken"], $row["authorEmail"], $row["authorHash"], $row["authorUsername"]);
+				$authors[$authors->key()] = $author;
+				$author->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOExeption($exception->getMessage(), 0, $exception));
+			}
+		}
+	}
+	/**
 	 * formats the state variables for JSON serialization
 	 *
 	 * @return array resulting state variables to serialize
