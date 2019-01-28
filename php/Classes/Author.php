@@ -364,7 +364,7 @@ class author implements \JsonSerializable{
 	 */
 	public static function getAllAuthors(\PDO $pdo) : \SPLFixedArray {
 		// create query template
-		$query = "SELECT authorId, authorAvatarUrl, authorActivationToken, authorEmail, authorHash, authorUsername";
+		$query = "SELECT authorId, authorAvatarUrl, authorActivationToken, authorEmail, authorHash, authorUsername FROM author";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
